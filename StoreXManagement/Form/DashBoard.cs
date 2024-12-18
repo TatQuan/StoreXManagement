@@ -115,6 +115,12 @@ namespace StoreXManagement
             string username = txtUserName.Text;
             string password = txtPassword.Text;
 
+            if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+            {
+                lblNotificate.Text = "Username or password can't be blank";
+                return;
+            }
+
             //Query check username and password
             string query = "SELECT * FROM Employee WHERE Username = @user AND Password = @Pass";
             connection.Open();
@@ -137,6 +143,7 @@ namespace StoreXManagement
                 pnlHome.Visible = true;
                 lblWelcome.Text = "Welcome " + username;
                 lblWelcome.Location = new Point((pnlHome.Width - lblWelcome.Width)/2, (pnlHome.Height - lblWelcome.Height)/2);
+                lblNotificate.Text = string.Empty;
             }
             else
             {

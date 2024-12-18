@@ -36,7 +36,6 @@
             this.TotalAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlCustom = new System.Windows.Forms.Panel();
             this.dtmSearch = new System.Windows.Forms.DateTimePicker();
-            this.btnExport = new System.Windows.Forms.Button();
             this.lblSearchNotification = new System.Windows.Forms.Label();
             this.picRefresh = new System.Windows.Forms.PictureBox();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -116,7 +115,6 @@
             // 
             this.pnlCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustom.Controls.Add(this.dtmSearch);
-            this.pnlCustom.Controls.Add(this.btnExport);
             this.pnlCustom.Controls.Add(this.lblSearchNotification);
             this.pnlCustom.Controls.Add(this.picRefresh);
             this.pnlCustom.Controls.Add(this.btnSearch);
@@ -135,24 +133,6 @@
             this.dtmSearch.Name = "dtmSearch";
             this.dtmSearch.Size = new System.Drawing.Size(200, 22);
             this.dtmSearch.TabIndex = 26;
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnExport.Image = global::StoreXManagement.Properties.Resources.import_file_lightColor;
-            this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1126, 13);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(77, 29);
-            this.btnExport.TabIndex = 25;
-            this.btnExport.Text = "Export";
-            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Visible = false;
             // 
             // lblSearchNotification
             // 
@@ -248,7 +228,6 @@
 
         private System.Windows.Forms.DataGridView dgvInvoice;
         private System.Windows.Forms.Panel pnlCustom;
-        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Label lblSearchNotification;
         private System.Windows.Forms.PictureBox picRefresh;
         private System.Windows.Forms.Button btnSearch;
