@@ -1,7 +1,5 @@
-﻿CREATE TABLE CategoryList(
-CategoryID INT IDENTITY(1,1) PRIMARY KEY,
-CategoryName NVARCHAR(100)
-)
+﻿CREATE DATABASE StoreXmanagement
+USE StoreXmanagement
 
 CREATE TABLE Product(
 ProductID INT IDENTITY(1,1) PRIMARY KEY,
@@ -10,6 +8,11 @@ Price DECIMAL(15,2),
 InventoryQuantity INT,
 CategoryID INT FOREIGN KEY REFERENCES CategoryList(CategoryID),
 Image VARBINARY(max)
+)
+
+CREATE TABLE CategoryList(
+CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+CategoryName NVARCHAR(100)
 )
 
 CREATE TABLE Customer(
@@ -140,3 +143,104 @@ WHERE
 UPDATE Invoice SET CustomerID = @CusID WHERE InvoiceID = @InID 
 
 
+--Report
+
+
+SELECT 
+    'PD' + RIGHT('00000' + CAST(p.ProductID AS VARCHAR(5)), 5) AS ID, 
+    p.ProductName, 
+    SUM(id.QuantityPurchase) AS QuantityTotal, 
+    SUM(id.QuantityPurchase * p.Price) AS TotalPrice
+FROM 
+    InvoiceDetails id
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+GROUP BY 
+    p.ProductID, p.ProductName
+
+
+
+SELECT 
+    'EP' + RIGHT('00000' + CAST(e.EmployeeID AS VARCHAR(5)), 5) AS ID, 
+    e.EmployeeName, 
+    COUNT(i.InvoiceID) AS TotalInvoice, 
+    SUM(id.QuantityPurchase * p.Price) AS TotalPrice
+FROM 
+    InvoiceDetails id
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+JOIN 
+    Employee e ON id.EmployeeID = e.EmployeeID
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+GROUP BY 
+    e.EmployeeID, e.EmployeeName
+
+
+SELECT 
+    'PD' + RIGHT('00000' + CAST(p.ProductID AS VARCHAR(5)), 5) AS ID, 
+    p.ProductName, 
+    SUM(id.QuantityPurchase) AS QuantityTotal, 
+    SUM(id.QuantityPurchase * p.Price) AS TotalPrice
+FROM 
+    InvoiceDetails id
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+GROUP BY 
+    p.ProductID, p.ProductName
+
+SELECT 
+    p.ProductID,
+    p.ProductName,
+    p.Price,
+    id.QuantityPurchase,
+    (id.QuantityPurchase * p.Price) AS TotalPrice
+FROM 
+    InvoiceDetails id
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+WHERE
+    p.ProductName LIKE @name
+
+SELECT 
+    e.EmployeeID, 
+    e.EmployeeName, 
+    COUNT(i.InvoiceID) AS TotalInvoices, 
+    SUM(id.QuantityPurchase * p.Price) AS TotalRevenue
+FROM 
+    InvoiceDetails id
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+JOIN 
+    Employee e ON id.EmployeeID = e.EmployeeID
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+WHERE
+    e.EmployeeName LIKE @name
+GROUP BY 
+    e.EmployeeID, e.EmployeeName
+
+
+SELECT 
+    'CT' + RIGHT('00000' + CAST(c.CustomerID AS VARCHAR(5)), 5) AS formattedCustomer_id, 
+    c.CustomerName, 
+    COUNT(i.InvoiceID) AS TotalInvoices, 
+    SUM(id.QuantityPurchase * p.Price) AS TotalPrice
+FROM 
+    InvoiceDetails id
+JOIN 
+    Invoice i ON id.InvoiceID = i.InvoiceID
+JOIN 
+    Customer c ON i.CustomerID = c.CustomerID
+JOIN 
+    Product p ON id.ProductID = p.ProductID
+WHERE 
+    i.InvoicingDate BETWEEN '12/4/2024' AND '12/10/2024'
+GROUP BY 
+    c.CustomerID, c.CustomerName;

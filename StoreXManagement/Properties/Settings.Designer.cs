@@ -33,5 +33,16 @@ namespace StoreXManagement.Properties {
                 return ((string)(this["ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-17URO859;Initial Catalog=StoreXManagement;Persist Security Inf" +
+            "o=True;User ID=sa;Password=kekwisfun;TrustServerCertificate=True")]
+        public string StoreXManagementConnectionString {
+            get {
+                return ((string)(this["StoreXManagementConnectionString"]));
+            }
+        }
     }
 }
