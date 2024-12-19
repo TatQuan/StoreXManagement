@@ -264,14 +264,11 @@ namespace StoreXManagement
                 cmd1.Parameters.Add("@quantity", SqlDbType.Int).Value = quantity;
                 cmd1.Parameters.Add("@TransDate", SqlDbType.Date).Value = DateTime.Now.Date;
                 cmd1.Parameters.Add("@EmpID", SqlDbType.Int).Value = GetUser.EmpID;
-                try
-                {
-                    cmd1.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex);
-                }
+                
+                
+                cmd1.ExecuteNonQuery();
+                
+                
 
                 FillData();
                 lblNotification.Text = "Insert successfully";
@@ -440,7 +437,7 @@ namespace StoreXManagement
                                 SELECT 'PD' + RIGHT('00000' + CAST(ProductID AS VARCHAR(5)), 5) AS formattedProduct_id,
                                     ProductName,
                                     Price,
-                                    Quantity,
+                                    InventoryQuantity,
                                     Product.CategoryID,
                                     CategoryList.CategoryName,
                                     Image
@@ -450,11 +447,11 @@ namespace StoreXManagement
                                     CategoryList
                                     ON Product.CategoryID = CategoryList.CategoryID
                                 WHERE
-                                    ProductName LIKE @searchName";
+                                    ProductName LIKE '%' + @searchName + '%'";
             connection.Open();
 
             SqlDataAdapter adapter = new SqlDataAdapter(searchName, connection);
-            adapter.SelectCommand.Parameters.AddWithValue("@searchName", "%" + Name + "%");
+            adapter.SelectCommand.Parameters.AddWithValue("@searchName",Name);
             DataTable tbl = new DataTable();
             adapter.Fill(tbl);
             dgvProduct.DataSource = tbl;
@@ -516,7 +513,7 @@ namespace StoreXManagement
                                         'PD' + RIGHT('00000' + CAST(ProductID AS VARCHAR(5)), 5) AS formattedProduct_id,
                                         ProductName,
                                         Price,
-                                        Quantity,
+                                        InventoryQuantity,
                                         Product.CategoryID,
                                         CategoryList.CategoryName,
                                         Image 

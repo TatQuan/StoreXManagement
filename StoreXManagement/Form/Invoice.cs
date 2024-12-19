@@ -32,7 +32,7 @@ namespace StoreXManagement
         {
             btnAdd.Image = StoreXManagement.Properties.Resources.edit_lightColor;
             btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            btnAdd.Text = "Edit";
+            btnAdd.Text = "View";
         }
 
 
@@ -110,7 +110,7 @@ namespace StoreXManagement
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (btnAdd.Text.Equals("Edit"))
+            if (btnAdd.Text.Equals("View"))
             {
                 frmUpdateInvoice update = new frmUpdateInvoice(invoiceID, staff, cusName);
 
@@ -153,6 +153,47 @@ namespace StoreXManagement
             }
         }
 
+        private int DeleteQuery(int idInvoice)
+        {
+            int error = 0;
+            string DeleteInvoice = @"
+                                    DELETE FROM Invoice WHERE InvoiceID = @ID";
+            string DeleteDetails = @"
+                                    DELETE FROM InvoiceDetails WHERE InvoiceID = @ID";
+
+            SqlTransaction transaction = null;
+            try
+            {
+                connection.Open();
+                transaction = connection.BeginTransaction();
+
+                SqlCommand cmd1 = new SqlCommand(DeleteInvoice, connection, transaction);
+                cmd1.Parameters.Add("@ID", SqlDbType.Int).Value = idInvoice;
+                cmd1.ExecuteNonQuery();
+
+                SqlCommand cmd2 = new SqlCommand(DeleteDetails, connection, transaction);
+                cmd2.Parameters.Add("@ID", SqlDbType.Int).Value = idInvoice;
+                cmd2.ExecuteNonQuery();
+
+                transaction.Commit();
+                MessageBox.Show("successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+                MessageBox.Show("Error: " + ex.Message);
+
+                error++;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return error;
+        }
         private void dgvInvoice_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -162,8 +203,21 @@ namespace StoreXManagement
             }
             else if (e.KeyCode == Keys.Delete)
             {
-
+                try
+                {
+                    int ID = Convert.ToInt32((dgvInvoice.CurrentRow.Cells["InvoiceID"].Value.ToString().Replace("IV", "")));
+                    DeleteQuery(ID);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex);
+                }
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

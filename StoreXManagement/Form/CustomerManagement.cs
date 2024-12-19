@@ -240,7 +240,7 @@ namespace StoreXManagement
                     SqlCommand cmd = new SqlCommand(update, connection);
                     cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
                     cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = name;
-                    cmd.Parameters.Add("@phone", SqlDbType.Int).Value = phoneNumber;
+                    cmd.Parameters.Add("@phoneNumber", SqlDbType.Int).Value = phoneNumber;
                     cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
                     int i = cmd.ExecuteNonQuery();
                     if (i > 0)
