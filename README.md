@@ -1,1 +1,1 @@
-# This is source code ASM database Store X
+# This is source code Store management
